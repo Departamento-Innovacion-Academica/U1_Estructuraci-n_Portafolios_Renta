@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión Financiera - Diagrama de Pilares</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 1200px;
+            width: 100%;
+            padding: 48px 44px 44px;
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(3, 34, 61, 0.10);
+            position: relative;
+            overflow: hidden;
+            min-height: 780px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #03223D;
+            letter-spacing: -0.5px;
+        }
+
+        .header .line {
+            width: 50px;
+            height: 3px;
+            background: #356289;
+            margin: 8px auto 0;
+            border-radius: 10px;
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 680px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Tarjeta central */
+        .center-card {
+            position: absolute;
+            z-index: 20;
+            left: 5%;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: #03223D;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 4px solid #356289;
+            box-shadow: 0 8px 32px rgba(3, 34, 61, 0.30);
+            padding: 40px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translateY(-50%) scale(1);
+                box-shadow: 0 8px 32px rgba(3, 34, 61, 0.30);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.03);
+                box-shadow: 0 12px 48px rgba(3, 34, 61, 0.45);
+            }
+        }
+
+        .center-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 8px;
+        }
+
+        .center-card .title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .center-card .desc {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Tarjetas satélite */
+        .arc-card {
+            position: absolute;
+            background: #fafbff;
+            border-radius: 14px;
+            padding: 0 20px;
+            border-left: 5px solid #356289;
+            box-shadow: 0 2px 12px rgba(3, 34, 61, 0.06);
+            opacity: 0;
+            max-width: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            left: 52%;
+            width: 340px;
+            height: 90px;
+        }
+
+        .arc-card.visible {
+            opacity: 1;
+            pointer-events: auto;
+            padding: 16px 20px;
+            max-width: 340px;
+            max-height: 90px;
+            white-space: normal;
+            z-index: 1;
+            height: 90px;
+        }
+
+        .arc-card .card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #03223D;
+            letter-spacing: -0.2px;
+        }
+
+        .arc-card .card-desc {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #4a5a7a;
+            line-height: 1.4;
+            margin-top: 2px;
+        }
+
+        /* Posiciones */
+        .arc-1 {
+            top: 6%;
+            transform: translateY(0) scale(0.9);
+        }
+
+        .arc-1.visible {
+            transform: translateY(-6px) scale(1);
+        }
+
+        .arc-2 {
+            top: 28%;
+            transform: translateY(0) scale(0.9);
+        }
+
+        .arc-2.visible {
+            transform: translateY(-6px) scale(1);
+        }
+
+        .arc-3 {
+            top: 50%;
+            transform: translateY(0) scale(0.9);
+        }
+
+        .arc-3.visible {
+            transform: translateY(6px) scale(1);
+        }
+
+        .arc-4 {
+            top: 72%;
+            transform: translateY(0) scale(0.9);
+        }
+
+        .arc-4.visible {
+            transform: translateY(6px) scale(1);
+        }
+
+        /* Líneas conectoras */
+        .line-connector {
+            position: absolute;
+            background: #356289;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+            border-radius: 2px;
+            z-index: 0;
+            left: 36%;
+            width: 130px;
+            height: 2px;
+        }
+
+        .line-connector.visible {
+            opacity: 0.35;
+        }
+
+        .line-1 {
+            top: 10%;
+            transform: translateY(-50%) rotate(-16deg);
+        }
+
+        .line-2 {
+            top: 32%;
+            transform: translateY(-50%) rotate(-6deg);
+        }
+
+        .line-3 {
+            top: 54%;
+            transform: translateY(-50%) rotate(6deg);
+        }
+
+        .line-4 {
+            top: 76%;
+            transform: translateY(-50%) rotate(16deg);
+        }
+
+        .reset-btn {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 28px 16px 24px;
+                min-height: 780px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .map-container {
+                height: 740px;
+            }
+
+            .center-card {
+                width: 280px;
+                height: 280px;
+                padding: 28px;
+                left: 6%;
+                top: 34%;
+            }
+
+            .center-card .icon {
+                font-size: 2.6rem;
+            }
+
+            .center-card .title {
+                font-size: 1.3rem;
+            }
+
+            .center-card .desc {
+                font-size: 0.85rem;
+            }
+
+            .arc-card {
+                left: 44%;
+                width: 240px;
+                height: 75px;
+            }
+
+            .arc-card.visible {
+                max-width: 240px;
+                max-height: 75px;
+                padding: 12px 16px;
+                height: 75px;
+            }
+
+            .arc-card .card-title {
+                font-size: 0.85rem;
+            }
+
+            .arc-card .card-desc {
+                font-size: 0.7rem;
+            }
+
+            .arc-1 {
+                top: 6%;
+            }
+
+            .arc-2 {
+                top: 27%;
+            }
+
+            .arc-3 {
+                top: 48%;
+            }
+
+            .arc-4 {
+                top: 69%;
+            }
+
+            .line-connector {
+                left: 28%;
+                width: 100px;
+            }
+
+            .line-1 {
+                top: 10%;
+                transform: translateY(-50%) rotate(-12deg);
+            }
+
+            .line-2 {
+                top: 31%;
+                transform: translateY(-50%) rotate(-4deg);
+            }
+
+            .line-3 {
+                top: 52%;
+                transform: translateY(-50%) rotate(4deg);
+            }
+
+            .line-4 {
+                top: 73%;
+                transform: translateY(-50%) rotate(12deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 10px 20px;
+                min-height: 740px;
+            }
+
+            .map-container {
+                height: 760px;
+            }
+
+            .center-card {
+                width: 200px;
+                height: 200px;
+                padding: 18px;
+                left: 4%;
+                top: 32%;
+            }
+
+            .center-card .icon {
+                font-size: 2rem;
+            }
+
+            .center-card .title {
+                font-size: 1rem;
+            }
+
+            .center-card .desc {
+                font-size: 0.65rem;
+            }
+
+            .arc-card {
+                left: 34%;
+                width: 170px;
+                height: 65px;
+            }
+
+            .arc-card.visible {
+                max-width: 170px;
+                max-height: 65px;
+                padding: 8px 12px;
+                height: 65px;
+            }
+
+            .arc-card .card-title {
+                font-size: 0.7rem;
+            }
+
+            .arc-card .card-desc {
+                font-size: 0.6rem;
+            }
+
+            .arc-1 {
+                top: 6%;
+            }
+
+            .arc-2 {
+                top: 26%;
+            }
+
+            .arc-3 {
+                top: 46%;
+            }
+
+            .arc-4 {
+                top: 66%;
+            }
+
+            .line-connector {
+                left: 20%;
+                width: 70px;
+            }
+
+            .line-1 {
+                top: 10%;
+                transform: translateY(-50%) rotate(-8deg);
+            }
+
+            .line-2 {
+                top: 30%;
+                transform: translateY(-50%) rotate(-2deg);
+            }
+
+            .line-3 {
+                top: 50%;
+                transform: translateY(-50%) rotate(2deg);
+            }
+
+            .line-4 {
+                top: 70%;
+                transform: translateY(-50%) rotate(8deg);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0f2f7;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c8d0df;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #356289;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Objetivos de la Gestión Financiera</h1>
+            <div class="line"></div>
+        </div>
+
+        <div class="map-container" id="mapContainer">
+
+            <!-- Líneas conectoras -->
+            <div class="line-connector line-1" id="line1"></div>
+            <div class="line-connector line-2" id="line2"></div>
+            <div class="line-connector line-3" id="line3"></div>
+            <div class="line-connector line-4" id="line4"></div>
+
+            <!-- Tarjeta central -->
+            <div class="center-card" id="centerCard">
+                <div class="title">Gestión Financiera</div>
+            </div>
+
+            <!-- 4 Tarjetas -->
+            <div class="arc-card arc-1" id="arc1">
+                <div>
+                    <div class="card-title">Cumplimiento de Objetivos Financieros</div>
+                    <div class="card-desc">Alcanzar metas específicas</div>
+                </div>
+            </div>
+
+            <div class="arc-card arc-2" id="arc2">
+                <div>
+                    <div class="card-title">Flexibilidad y Adaptación</div>
+                    <div class="card-desc">Ajustarse a las condiciones del mercado</div>
+                </div>
+            </div>
+
+            <div class="arc-card arc-3" id="arc3">
+                <div>
+                    <div class="card-title">Maximización del Rendimiento</div>
+                    <div class="card-desc">Aumentar el crecimiento del capital</div>
+                </div>
+            </div>
+
+            <div class="arc-card arc-4" id="arc4">
+                <div>
+                    <div class="card-title">Reducción del Riesgo</div>
+                    <div class="card-desc">Minimizar el impacto negativo</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // --------------------------------------------------------------
+        // ANIMACIÓN AUTOMÁTICA AL CARGAR LA PÁGINA
+        // --------------------------------------------------------------
+
+        const arcCards = document.querySelectorAll('.arc-card');
+        const lines = document.querySelectorAll('.line-connector');
+
+        function animateCards() {
+            arcCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 200 * (index + 1));
+            });
+
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add('visible');
+                }, 200 * (index + 1) + 150);
+            });
+        }
+
+        window.addEventListener('load', function () {
+            animateCards();
+        });
+
+        if (document.readyState === 'complete') {
+            animateCards();
+        } else {
+            document.addEventListener('DOMContentLoaded', function () {
+                setTimeout(animateCards, 300);
+            });
+        }
+
+        console.log('Diagrama de Gestión Financiera - 4 objetivos');
+        console.log('Paleta: #03223D / #356289');
+    </script>
+
+</body>
+
+</html>

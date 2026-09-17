@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Instrumentos de Renta Fija</title>
+
+  <!-- POPPINS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* ==========================================
+       CONFIGURACIÓN GENERAL
+    ========================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+
+      padding: 20px;
+
+      /* ===== CENTRADO VERTICAL Y HORIZONTAL ===== */
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow-x: hidden;
+    }
+
+
+    /* ==========================================
+       CONTENEDOR
+       Tabla más pequeña
+    ========================================== */
+
+    .tabla-wrapper {
+      width: 100%;
+
+      /* Controla el tamaño general */
+      max-width: 1080px;
+
+      margin: 0 auto;
+    }
+
+
+    /* ==========================================
+       GRID
+    ========================================== */
+
+    .tabla {
+      display: grid;
+
+      grid-template-columns:
+        1.05fr
+        1fr
+        1fr
+        1fr;
+
+      gap: 14px;
+    }
+
+
+    /* ==========================================
+       TARJETAS GENERALES
+    ========================================== */
+
+    .celda {
+      width: 100%;
+
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      color: #ffffff;
+
+      font-family: "Poppins", sans-serif;
+
+      padding: 14px 16px;
+
+
+      /* Estado inicial de la animación */
+
+      opacity: 0;
+
+      transform: translateY(75px);
+
+
+      /* Entrada ascendente */
+
+      animation:
+        entradaAscendente
+        1.15s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        forwards;
+    }
+
+
+    @keyframes entradaAscendente {
+
+      from {
+        opacity: 0;
+        transform: translateY(75px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+
+    /* ==========================================
+       FILA 1
+       ENCABEZADOS
+    ========================================== */
+
+    .encabezado {
+      min-height: 135px;
+
+      background: #02284A;
+
+      font-size: 1.06rem;
+
+      font-weight: 700;
+
+      line-height: 1.15;
+    }
+
+
+
+    /* ==========================================
+       FILA 2
+       EMISOR
+    ========================================== */
+
+    .emisor {
+      min-height: 82px;
+
+      background: #4A419E;
+
+      font-size: 0.95rem;
+
+      font-weight: 400;
+
+      line-height: 1.2;
+    }
+
+
+    .emisor.caracteristica {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+
+
+    /* ==========================================
+       FILA 3
+       PROPÓSITO
+    ========================================== */
+
+    .proposito {
+      min-height: 116px;
+
+      background: #3F539C;
+
+      font-size: 0.92rem;
+
+      font-weight: 400;
+
+      line-height: 1.18;
+    }
+
+
+    .proposito.caracteristica {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+
+
+    /* ==========================================
+       FILA 4
+       EJEMPLOS
+    ========================================== */
+
+    .ejemplos {
+      min-height: 180px;
+
+      background: #436F99;
+
+      font-size: 0.88rem;
+
+      font-weight: 400;
+
+      line-height: 1.18;
+    }
+
+
+    .ejemplos.caracteristica {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+
+
+    /* ==========================================
+       FILA 5
+       DESCRIPCIÓN
+    ========================================== */
+
+    .descripcion {
+      min-height: 116px;
+
+      background: #5B81A5;
+
+      font-size: 0.88rem;
+
+      font-weight: 400;
+
+      line-height: 1.18;
+    }
+
+
+    .descripcion.caracteristica {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+
+
+    /* ==========================================
+       ANIMACIÓN ESCALONADA
+       Mantiene entrada de abajo hacia arriba
+    ========================================== */
+
+    .celda:nth-child(1)  { animation-delay: 0.05s; }
+    .celda:nth-child(2)  { animation-delay: 0.10s; }
+    .celda:nth-child(3)  { animation-delay: 0.15s; }
+    .celda:nth-child(4)  { animation-delay: 0.20s; }
+
+    .celda:nth-child(5)  { animation-delay: 0.30s; }
+    .celda:nth-child(6)  { animation-delay: 0.35s; }
+    .celda:nth-child(7)  { animation-delay: 0.40s; }
+    .celda:nth-child(8)  { animation-delay: 0.45s; }
+
+    .celda:nth-child(9)  { animation-delay: 0.55s; }
+    .celda:nth-child(10) { animation-delay: 0.60s; }
+    .celda:nth-child(11) { animation-delay: 0.65s; }
+    .celda:nth-child(12) { animation-delay: 0.70s; }
+
+    .celda:nth-child(13) { animation-delay: 0.80s; }
+    .celda:nth-child(14) { animation-delay: 0.85s; }
+    .celda:nth-child(15) { animation-delay: 0.90s; }
+    .celda:nth-child(16) { animation-delay: 0.95s; }
+
+    .celda:nth-child(17) { animation-delay: 1.05s; }
+    .celda:nth-child(18) { animation-delay: 1.10s; }
+    .celda:nth-child(19) { animation-delay: 1.15s; }
+    .celda:nth-child(20) { animation-delay: 1.20s; }
+
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 900px) {
+
+      body {
+        padding: 12px;
+
+        /* Volver al flujo normal para permitir scroll horizontal */
+        display: block;
+        min-height: auto;
+      }
+
+
+      .tabla-wrapper {
+        overflow-x: auto;
+
+        padding-bottom: 10px;
+      }
+
+
+      .tabla {
+        min-width: 850px;
+      }
+
+    }
+
+
+
+    /* ==========================================
+       ACCESIBILIDAD
+    ========================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .celda {
+        animation: none;
+
+        opacity: 1;
+
+        transform: none;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="tabla-wrapper">
+
+    <section class="tabla">
+
+
+      <!-- ======================================
+           FILA 1
+      ======================================= -->
+
+      <div class="celda encabezado">
+        Característica
+      </div>
+
+
+      <div class="celda encabezado">
+        Títulos de<br>
+        Deuda Pública
+      </div>
+
+
+      <div class="celda encabezado">
+        Títulos de<br>
+        Deuda<br>
+        Corporativa
+      </div>
+
+
+      <div class="celda encabezado">
+        Otros<br>
+        Instrumentos<br>
+        de Renta Fija
+      </div>
+
+
+
+      <!-- ======================================
+           FILA 2
+           EMISOR
+      ======================================= -->
+
+      <div class="celda emisor caracteristica">
+        Emisor
+      </div>
+
+
+      <div class="celda emisor">
+        Gobierno, entidades<br>
+        locales
+      </div>
+
+
+      <div class="celda emisor">
+        Empresas
+      </div>
+
+
+      <div class="celda emisor">
+        Bancos, fondos de<br>
+        inversión
+      </div>
+
+
+
+      <!-- ======================================
+           FILA 3
+           PROPÓSITO
+      ======================================= -->
+
+      <div class="celda proposito caracteristica">
+        Propósito
+      </div>
+
+
+      <div class="celda proposito">
+        Financiar el<br>
+        presupuesto<br>
+        nacional, proyectos
+      </div>
+
+
+      <div class="celda proposito">
+        Financiar<br>
+        operaciones
+      </div>
+
+
+      <div class="celda proposito">
+        Atraer depósitos a<br>
+        plazo fijo,<br>
+        diversificar inversión
+      </div>
+
+
+
+      <!-- ======================================
+           FILA 4
+           EJEMPLOS
+      ======================================= -->
+
+      <div class="celda ejemplos caracteristica">
+        Ejemplos
+      </div>
+
+
+      <div class="celda ejemplos">
+        TES, Bonos del<br>
+        Estado
+      </div>
+
+
+      <div class="celda ejemplos">
+        Bonos Corporativos,<br>
+        Letras, Pagarés
+      </div>
+
+
+      <div class="celda ejemplos">
+        CDTs, fondos de<br>
+        inversión en renta<br>
+        fija. aceptaciones<br>
+        bancarias, TIPS,<br>
+        TIDAS, Títulos de<br>
+        Pensiones
+      </div>
+
+
+
+      <!-- ======================================
+           FILA 5
+           DESCRIPCIÓN
+      ======================================= -->
+
+      <div class="celda descripcion caracteristica">
+        Descripción
+      </div>
+
+
+      <div class="celda descripcion">
+        Instrumentos de<br>
+        deuda emitidos por<br>
+        el gobierno
+      </div>
+
+
+      <div class="celda descripcion">
+        Instrumentos de<br>
+        deuda emitidos por<br>
+        empresas
+      </div>
+
+
+      <div class="celda descripcion">
+        Varios instrumentos<br>
+        para inversión en<br>
+        renta fija
+      </div>
+
+
+    </section>
+
+  </main>
+
+</body>
+</html>

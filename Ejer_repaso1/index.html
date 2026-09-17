@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ejercicio de repaso</title>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* =====================================
+       GENERAL
+    ====================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+      color: #031451;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px 20px;
+    }
+
+
+    /* =====================================
+       CONTENEDOR
+    ====================================== */
+
+    .quiz {
+      width: 100%;
+      max-width: 950px;
+
+      background: #ffffff;
+
+      border: 2px solid #56628D;
+      border-radius: 24px;
+
+      padding: 38px;
+
+      box-shadow:
+        0 15px 40px
+        rgba(3, 20, 81, 0.10);
+    }
+
+
+    /* =====================================
+       ENCABEZADO
+    ====================================== */
+
+    .encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 20px;
+
+      margin-bottom: 30px;
+    }
+
+    .titulo {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 700;
+
+      color: #031451;
+    }
+
+    .contador {
+      flex-shrink: 0;
+
+      background: #031451;
+      color: #ffffff;
+
+      padding: 8px 16px;
+
+      border-radius: 30px;
+
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+
+    /* =====================================
+       INSTRUCCIÓN
+    ====================================== */
+
+    .instruccion {
+      font-size: 1rem;
+      font-weight: 600;
+
+      color: #56628D;
+
+      margin-bottom: 22px;
+    }
+
+
+    /* =====================================
+       PREGUNTA
+    ====================================== */
+
+    .pregunta {
+      font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+      line-height: 1.7;
+
+      font-weight: 400;
+
+      color: #181818;
+
+      margin-bottom: 30px;
+    }
+
+
+    /* =====================================
+       OPCIONES
+    ====================================== */
+
+    .opciones {
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 18px;
+
+      margin-bottom: 25px;
+    }
+
+    .opcion {
+      border: 2px solid #56628D;
+
+      background: #ffffff;
+
+      color: #031451;
+
+      border-radius: 16px;
+
+      padding: 16px 20px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 1rem;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .opcion:hover {
+      background: #56628D;
+      color: #ffffff;
+
+      transform: translateY(-2px);
+    }
+
+    .opcion:disabled {
+      cursor: default;
+
+      transform: none;
+    }
+
+
+    /* =====================================
+       ESTADOS
+    ====================================== */
+
+    .opcion.correcta {
+      background: #2E7D32;
+      border-color: #2E7D32;
+      color: #ffffff;
+    }
+
+    .opcion.incorrecta {
+      background: #C62828;
+      border-color: #C62828;
+      color: #ffffff;
+    }
+
+
+    /* =====================================
+       REALIMENTACIÓN
+    ====================================== */
+
+    .realimentacion {
+      display: none;
+
+      margin-top: 10px;
+
+      padding: 22px 24px;
+
+      border-radius: 16px;
+
+      background: #F4F6FB;
+
+      border-left: 6px solid #56628D;
+    }
+
+    .realimentacion.visible {
+      display: block;
+
+      animation: aparecer 0.45s ease;
+    }
+
+    .resultado-respuesta {
+      font-size: 1.05rem;
+      font-weight: 700;
+
+      margin-bottom: 10px;
+    }
+
+    .resultado-respuesta.correcto {
+      color: #2E7D32;
+    }
+
+    .resultado-respuesta.incorrecto {
+      color: #C62828;
+    }
+
+    .realimentacion h3 {
+      font-size: 1rem;
+      font-weight: 700;
+
+      color: #031451;
+
+      margin-bottom: 8px;
+    }
+
+    .realimentacion p {
+      font-size: 0.98rem;
+
+      line-height: 1.65;
+
+      color: #333333;
+    }
+
+
+    @keyframes aparecer {
+
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    /* =====================================
+       BOTÓN SIGUIENTE
+    ====================================== */
+
+    .acciones {
+      display: flex;
+      justify-content: flex-end;
+
+      margin-top: 25px;
+    }
+
+    .siguiente {
+      display: none;
+
+      border: none;
+
+      background: #031451;
+
+      color: #ffffff;
+
+      border-radius: 14px;
+
+      padding: 13px 25px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 0.95rem;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .siguiente.visible {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .siguiente:hover {
+      background: #56628D;
+
+      transform: translateX(3px);
+    }
+
+
+    /* =====================================
+       RESULTADO FINAL
+    ====================================== */
+
+    .resultado-final {
+      display: none;
+
+      text-align: center;
+
+      padding: 25px 10px;
+    }
+
+    .resultado-final.visible {
+      display: block;
+
+      animation: aparecer 0.5s ease;
+    }
+
+    .resultado-final h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+
+      color: #031451;
+
+      margin-bottom: 15px;
+    }
+
+    .puntaje {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+
+      font-weight: 700;
+
+      color: #56628D;
+
+      margin-bottom: 10px;
+    }
+
+    .resultado-final p {
+      font-size: 1rem;
+
+      color: #444444;
+
+      margin-bottom: 25px;
+    }
+
+    .reiniciar {
+      border: none;
+
+      background: #031451;
+
+      color: #ffffff;
+
+      padding: 13px 28px;
+
+      border-radius: 14px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 0.95rem;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+    .reiniciar:hover {
+      background: #56628D;
+    }
+
+
+    /* =====================================
+       RESPONSIVE
+    ====================================== */
+
+    @media (max-width: 650px) {
+
+      .quiz {
+        padding: 25px 20px;
+      }
+
+      .encabezado {
+        align-items: flex-start;
+      }
+
+      .opciones {
+        grid-template-columns: 1fr;
+      }
+
+      .pregunta {
+        line-height: 1.55;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="quiz">
+
+    <!-- =====================================
+         ÁREA DEL EJERCICIO
+    ====================================== -->
+
+    <section id="areaQuiz">
+
+      <div class="encabezado">
+
+        <h1 class="titulo">
+          Ejercicio de repaso
+        </h1>
+
+        <div
+          class="contador"
+          id="contador"
+        >
+          1 de 3
+        </div>
+
+      </div>
+
+
+      <div class="instruccion">
+        Seleccione Verdadero o Falso.
+      </div>
+
+
+      <div
+        class="pregunta"
+        id="pregunta"
+      ></div>
+
+
+      <div class="opciones">
+
+        <button
+          class="opcion"
+          id="btnVerdadero"
+          type="button"
+        >
+          Verdadero
+        </button>
+
+        <button
+          class="opcion"
+          id="btnFalso"
+          type="button"
+        >
+          Falso
+        </button>
+
+      </div>
+
+
+      <div
+        class="realimentacion"
+        id="realimentacion"
+      >
+
+        <div
+          class="resultado-respuesta"
+          id="resultadoRespuesta"
+        ></div>
+
+        <h3>
+          Realimentación:
+        </h3>
+
+        <p id="textoRealimentacion"></p>
+
+      </div>
+
+
+      <div class="acciones">
+
+        <button
+          class="siguiente"
+          id="btnSiguiente"
+          type="button"
+        >
+          Siguiente
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         RESULTADO FINAL
+    ====================================== -->
+
+    <section
+      class="resultado-final"
+      id="resultadoFinal"
+    >
+
+      <h2>
+        Resultado final
+      </h2>
+
+      <div
+        class="puntaje"
+        id="puntaje"
+      >
+        0/3
+      </div>
+
+      <p id="mensajeFinal"></p>
+
+      <button
+        class="reiniciar"
+        id="btnReiniciar"
+        type="button"
+      >
+        Intentar nuevamente
+      </button>
+
+    </section>
+
+  </main>
+
+
+
+  <script>
+
+    /* =====================================
+       DATOS DEL EJERCICIO
+    ====================================== */
+
+    const preguntas = [
+
+      {
+        enunciado:
+          `Un portafolio de inversión corresponde al conjunto de activos e instrumentos financieros seleccionados por un inversionista con el propósito de diversificar sus recursos y alcanzar determinados objetivos de rentabilidad y riesgo.`,
+
+        respuesta: true,
+
+        realimentacion:
+          `Un portafolio de inversión está conformado por diferentes activos financieros que permiten distribuir los recursos entre diversas alternativas de inversión. Esta diversificación busca optimizar la relación entre riesgo y rentabilidad de acuerdo con los objetivos y el perfil del inversionista.`
+      },
+
+
+      {
+        enunciado:
+          `La adecuada gestión de un portafolio de inversión elimina por completo el riesgo asociado a la volatilidad de los mercados financieros.`,
+
+        respuesta: false,
+
+        realimentacion:
+          `La administración de un portafolio no elimina el riesgo, ya que este es una característica inherente a los mercados financieros. No obstante, una adecuada diversificación y selección de activos permite reducir la exposición a pérdidas potenciales y mejorar la relación entre riesgo y rentabilidad.`
+      },
+
+
+      {
+        enunciado:
+          `Los activos de renta fija ofrecen una rentabilidad previamente establecida o calculable desde el momento de la inversión, mientras que los activos de renta variable dependen del comportamiento del mercado y del desempeño de la entidad emisora.`,
+
+        respuesta: true,
+
+        realimentacion:
+          `Los instrumentos de renta fija ofrecen rendimientos previamente pactados o determinables, mientras que la rentabilidad de los activos de renta variable está sujeta a la evolución del mercado y al desempeño financiero del emisor.`
+      }
+
+    ];
+
+
+
+    /* =====================================
+       VARIABLES
+    ====================================== */
+
+    let indiceActual = 0;
+
+    let puntaje = 0;
+
+    let respondida = false;
+
+
+
+    /* =====================================
+       ELEMENTOS
+    ====================================== */
+
+    const areaQuiz =
+      document.getElementById("areaQuiz");
+
+    const contador =
+      document.getElementById("contador");
+
+    const pregunta =
+      document.getElementById("pregunta");
+
+    const btnVerdadero =
+      document.getElementById("btnVerdadero");
+
+    const btnFalso =
+      document.getElementById("btnFalso");
+
+    const realimentacion =
+      document.getElementById("realimentacion");
+
+    const resultadoRespuesta =
+      document.getElementById("resultadoRespuesta");
+
+    const textoRealimentacion =
+      document.getElementById("textoRealimentacion");
+
+    const btnSiguiente =
+      document.getElementById("btnSiguiente");
+
+    const resultadoFinal =
+      document.getElementById("resultadoFinal");
+
+    const puntajeFinal =
+      document.getElementById("puntaje");
+
+    const mensajeFinal =
+      document.getElementById("mensajeFinal");
+
+    const btnReiniciar =
+      document.getElementById("btnReiniciar");
+
+
+
+    /* =====================================
+       CARGAR PREGUNTA
+    ====================================== */
+
+    function cargarPregunta() {
+
+      respondida = false;
+
+      const actual =
+        preguntas[indiceActual];
+
+
+      contador.textContent =
+        `${indiceActual + 1} de ${preguntas.length}`;
+
+
+      pregunta.textContent =
+        `${indiceActual + 1}. ${actual.enunciado}`;
+
+
+      /* Restablecer botones */
+
+      btnVerdadero.disabled = false;
+      btnFalso.disabled = false;
+
+      btnVerdadero.classList.remove(
+        "correcta",
+        "incorrecta"
+      );
+
+      btnFalso.classList.remove(
+        "correcta",
+        "incorrecta"
+      );
+
+
+      /* Ocultar feedback */
+
+      realimentacion.classList.remove(
+        "visible"
+      );
+
+      btnSiguiente.classList.remove(
+        "visible"
+      );
+
+
+      /* Cambiar texto último botón */
+
+      if (
+        indiceActual ===
+        preguntas.length - 1
+      ) {
+
+        btnSiguiente.innerHTML =
+          `Ver resultado <span>→</span>`;
+
+      } else {
+
+        btnSiguiente.innerHTML =
+          `Siguiente <span>→</span>`;
+
+      }
+
+    }
+
+
+
+    /* =====================================
+       RESPONDER
+    ====================================== */
+
+    function responder(
+      respuestaUsuario,
+      botonSeleccionado
+    ) {
+
+      if (respondida) {
+        return;
+      }
+
+      respondida = true;
+
+
+      const actual =
+        preguntas[indiceActual];
+
+
+      const esCorrecta =
+        respuestaUsuario ===
+        actual.respuesta;
+
+
+      /* Bloquear opciones */
+
+      btnVerdadero.disabled = true;
+
+      btnFalso.disabled = true;
+
+
+
+      /* Mostrar correcta / incorrecta */
+
+      if (esCorrecta) {
+
+        botonSeleccionado.classList.add(
+          "correcta"
+        );
+
+        resultadoRespuesta.textContent =
+          "¡Respuesta correcta!";
+
+        resultadoRespuesta.className =
+          "resultado-respuesta correcto";
+
+        puntaje++;
+
+      } else {
+
+        botonSeleccionado.classList.add(
+          "incorrecta"
+        );
+
+
+        resultadoRespuesta.textContent =
+          "Respuesta incorrecta.";
+
+        resultadoRespuesta.className =
+          "resultado-respuesta incorrecto";
+
+
+        /* Marcar opción correcta */
+
+        if (actual.respuesta) {
+
+          btnVerdadero.classList.add(
+            "correcta"
+          );
+
+        } else {
+
+          btnFalso.classList.add(
+            "correcta"
+          );
+
+        }
+
+      }
+
+
+
+      /* Realimentación */
+
+      textoRealimentacion.textContent =
+        actual.realimentacion;
+
+
+      realimentacion.classList.add(
+        "visible"
+      );
+
+
+      btnSiguiente.classList.add(
+        "visible"
+      );
+
+    }
+
+
+
+    /* =====================================
+       BOTONES V / F
+    ====================================== */
+
+    btnVerdadero.addEventListener(
+      "click",
+      () => {
+
+        responder(
+          true,
+          btnVerdadero
+        );
+
+      }
+    );
+
+
+    btnFalso.addEventListener(
+      "click",
+      () => {
+
+        responder(
+          false,
+          btnFalso
+        );
+
+      }
+    );
+
+
+
+    /* =====================================
+       SIGUIENTE
+    ====================================== */
+
+    btnSiguiente.addEventListener(
+      "click",
+      () => {
+
+        indiceActual++;
+
+
+        if (
+          indiceActual <
+          preguntas.length
+        ) {
+
+          cargarPregunta();
+
+        } else {
+
+          mostrarResultado();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================
+       RESULTADO FINAL
+    ====================================== */
+
+    function mostrarResultado() {
+
+      areaQuiz.style.display =
+        "none";
+
+
+      resultadoFinal.classList.add(
+        "visible"
+      );
+
+
+      puntajeFinal.textContent =
+        `${puntaje}/${preguntas.length}`;
+
+
+      const porcentaje =
+        Math.round(
+          (puntaje / preguntas.length)
+          * 100
+        );
+
+
+      mensajeFinal.textContent =
+        `Obtuvo ${porcentaje}% de respuestas correctas.`;
+
+    }
+
+
+
+    /* =====================================
+       REINICIAR
+    ====================================== */
+
+    btnReiniciar.addEventListener(
+      "click",
+      () => {
+
+        indiceActual = 0;
+
+        puntaje = 0;
+
+        respondida = false;
+
+
+        resultadoFinal.classList.remove(
+          "visible"
+        );
+
+
+        areaQuiz.style.display =
+          "block";
+
+
+        cargarPregunta();
+
+      }
+    );
+
+
+
+    /* =====================================
+       INICIAR
+    ====================================== */
+
+    cargarPregunta();
+
+  </script>
+
+</body>
+</html>

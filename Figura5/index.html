@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Derechos y Riesgos</title>
+
+  <!-- POPPINS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ICONOS -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+
+    /* ==========================================
+       GENERAL
+    ========================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+      padding: 30px 25px;
+      overflow-x: hidden;
+      color: #090909;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+
+    /* ==========================================
+       CONTENIDO
+    ========================================== */
+
+    .contenido {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      column-gap: 150px;
+      row-gap: 45px;
+
+      padding: 15px 80px 25px;
+    }
+
+
+    /* ==========================================
+       ELEMENTOS
+    ========================================== */
+
+    .elemento {
+      display: flex;
+
+      align-items: center;
+
+      gap: 28px;
+
+      min-height: 120px;
+
+      opacity: 0;
+
+      /*
+        Todos comienzan arriba,
+        aunque su posición final esté abajo.
+      */
+      transform: translateY(-150px);
+
+      animation:
+        caer
+        1.25s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        forwards;
+    }
+
+
+    /* ==========================================
+       EFECTO DE CAÍDA
+    ========================================== */
+
+    @keyframes caer {
+
+      0% {
+        opacity: 0;
+        transform: translateY(-150px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(12px);
+      }
+
+      82% {
+        transform: translateY(-5px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    /* ==========================================
+       ORDEN DE APARICIÓN
+
+       Primero:
+       Plazo Indefinido
+       Derechos Económicos
+
+       Después:
+       Voto y Toma de Decisiones
+       Volatilidad y Liquidez Variable
+
+       Finalmente:
+       Dividendos y Valorización
+       Rentabilidad Incierta
+    ========================================== */
+
+
+    /* FILA INFERIOR */
+
+    .elemento:nth-child(5) {
+      animation-delay: 0.10s;
+    }
+
+    .elemento:nth-child(6) {
+      animation-delay: 0.25s;
+    }
+
+
+    /* FILA CENTRAL */
+
+    .elemento:nth-child(3) {
+      animation-delay: 0.60s;
+    }
+
+    .elemento:nth-child(4) {
+      animation-delay: 0.75s;
+    }
+
+
+    /* FILA SUPERIOR */
+
+    .elemento:nth-child(1) {
+      animation-delay: 1.10s;
+    }
+
+    .elemento:nth-child(2) {
+      animation-delay: 1.25s;
+    }
+
+
+    /* ==========================================
+       ICONOS
+    ========================================== */
+
+    .icono {
+      width: 75px;
+      min-width: 75px;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+    }
+
+    .icono svg {
+      width: 60px;
+      height: 60px;
+
+      stroke-width: 1.6;
+    }
+
+
+    /* DERECHOS */
+
+    .derecho .icono {
+      color: #39958f;
+    }
+
+
+    /* RIESGOS */
+
+    .riesgo .icono {
+      color: #e14e3f;
+    }
+
+
+    /* ==========================================
+       TEXTOS
+    ========================================== */
+
+    .texto {
+      font-family: "Poppins", sans-serif;
+
+      font-size: clamp(
+        1.4rem,
+        2.35vw,
+        2.15rem
+      );
+
+      font-weight: 400;
+
+      line-height: 1.18;
+
+      color: #090909;
+    }
+
+
+    /* ==========================================
+       BALANZA
+    ========================================== */
+
+    .balanza {
+      width: 100%;
+
+      padding: 0 35px;
+
+      opacity: 0;
+
+      transform: translateY(-100px);
+
+      animation:
+        caerBalanza
+        1.3s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        1.75s
+        forwards;
+    }
+
+
+    @keyframes caerBalanza {
+
+      0% {
+        opacity: 0;
+        transform: translateY(-100px);
+      }
+
+      70% {
+        opacity: 1;
+        transform: translateY(8px);
+      }
+
+      85% {
+        transform: translateY(-3px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    /* ==========================================
+       BARRA
+    ========================================== */
+
+    .barra {
+      width: 100%;
+      height: 24px;
+
+      background: #032743;
+    }
+
+
+    /* ==========================================
+       TRIÁNGULO
+       Punta hacia arriba
+    ========================================== */
+
+    .soporte {
+      width: 0;
+      height: 0;
+
+      margin: 0 auto;
+
+      border-left:
+        115px solid transparent;
+
+      border-right:
+        115px solid transparent;
+
+      border-bottom:
+        195px solid #032743;
+
+      border-top: 0;
+    }
+
+
+    /* ==========================================
+       ETIQUETAS
+    ========================================== */
+
+    .etiquetas {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      margin-top: -125px;
+
+      padding:
+        0
+        110px;
+
+      font-family:
+        "Poppins",
+        sans-serif;
+
+      font-size: clamp(
+        1.4rem,
+        2.2vw,
+        2rem
+      );
+
+      font-weight: 400;
+
+      color: #090909;
+    }
+
+    .etiqueta-derechos {
+      text-align: left;
+    }
+
+    .etiqueta-riesgos {
+      text-align: right;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 900px) {
+
+      .contenido {
+        column-gap: 60px;
+
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+
+      .elemento {
+        gap: 18px;
+      }
+
+      .icono {
+        width: 55px;
+        min-width: 55px;
+      }
+
+      .icono svg {
+        width: 48px;
+        height: 48px;
+      }
+
+      .texto {
+        font-size: 1.35rem;
+      }
+
+      .etiquetas {
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      body {
+        padding: 20px 12px;
+      }
+
+      .contenido {
+        grid-template-columns: 1fr;
+
+        row-gap: 18px;
+
+        padding:
+          0
+          20px
+          30px;
+      }
+
+      .elemento {
+        min-height: 90px;
+      }
+
+      .icono {
+        width: 50px;
+        min-width: 50px;
+      }
+
+      .icono svg {
+        width: 42px;
+        height: 42px;
+      }
+
+      .texto {
+        font-size: 1.15rem;
+      }
+
+
+      /* BALANZA */
+
+      .balanza {
+        padding: 0 10px;
+      }
+
+      .barra {
+        height: 17px;
+      }
+
+
+      /* TRIÁNGULO MÓVIL */
+
+      .soporte {
+        border-left-width: 70px;
+        border-right-width: 70px;
+
+        border-bottom-width: 120px;
+
+        border-top-width: 0;
+      }
+
+      .etiquetas {
+        margin-top: -75px;
+
+        padding:
+          0
+          25px;
+
+        font-size: 1.15rem;
+      }
+
+    }
+
+
+    /* ==========================================
+       ACCESIBILIDAD
+    ========================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .elemento,
+      .balanza {
+        animation: none;
+
+        opacity: 1;
+
+        transform: none;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="contenedor">
+
+
+    <section class="contenido">
+
+
+      <!-- =====================================
+           FILA SUPERIOR
+      ====================================== -->
+
+      <div class="elemento derecho">
+
+        <div class="icono">
+
+          <i data-lucide="badge-dollar-sign"></i>
+
+        </div>
+
+        <div class="texto">
+          Dividendos y<br>
+          Valorización
+        </div>
+
+      </div>
+
+
+      <div class="elemento riesgo">
+
+        <div class="icono">
+
+          <i data-lucide="chart-no-axes-combined"></i>
+
+        </div>
+
+        <div class="texto">
+          Rentabilidad<br>
+          Incierta
+        </div>
+
+      </div>
+
+
+
+      <!-- =====================================
+           FILA CENTRAL
+      ====================================== -->
+
+      <div class="elemento derecho">
+
+        <div class="icono">
+
+          <i data-lucide="vote"></i>
+
+        </div>
+
+        <div class="texto">
+          Voto y Toma de<br>
+          Decisiones
+        </div>
+
+      </div>
+
+
+      <div class="elemento riesgo">
+
+        <div class="icono">
+
+          <i data-lucide="scale"></i>
+
+        </div>
+
+        <div class="texto">
+          Volatilidad y<br>
+          Liquidez Variable
+        </div>
+
+      </div>
+
+
+
+      <!-- =====================================
+           FILA INFERIOR
+      ====================================== -->
+
+      <div class="elemento derecho">
+
+        <div class="icono">
+
+          <i data-lucide="infinity"></i>
+
+        </div>
+
+        <div class="texto">
+          Plazo Indefinido
+        </div>
+
+      </div>
+
+
+      <div class="elemento riesgo">
+
+        <div class="icono">
+
+          <i data-lucide="wallet-cards"></i>
+
+        </div>
+
+        <div class="texto">
+          Derechos<br>
+          Económicos
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =========================================
+         BALANZA
+    ========================================== -->
+
+    <section class="balanza">
+
+      <div class="barra"></div>
+
+      <div class="soporte"></div>
+
+
+      <div class="etiquetas">
+
+        <div class="etiqueta-derechos">
+          Derechos
+        </div>
+
+        <div class="etiqueta-riesgos">
+          Riesgos
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <script>
+
+    lucide.createIcons();
+
+  </script>
+
+</body>
+</html>

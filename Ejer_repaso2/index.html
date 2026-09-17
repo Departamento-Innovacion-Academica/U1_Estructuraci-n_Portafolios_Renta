@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ejercicio de repaso</title>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* =====================================
+       GENERAL
+    ====================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+
+      background: #ffffff;
+      color: #031451;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px 20px;
+    }
+
+
+    /* =====================================
+       CONTENEDOR
+    ====================================== */
+
+    .quiz {
+      width: 100%;
+      max-width: 950px;
+
+      background: #ffffff;
+
+      border: 2px solid #56628D;
+      border-radius: 24px;
+
+      padding: 38px;
+
+      box-shadow:
+        0 15px 40px
+        rgba(3, 20, 81, 0.10);
+    }
+
+
+    /* =====================================
+       ENCABEZADO
+    ====================================== */
+
+    .encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 20px;
+
+      margin-bottom: 30px;
+    }
+
+    .titulo {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+
+      font-weight: 700;
+
+      color: #031451;
+    }
+
+    .contador {
+      flex-shrink: 0;
+
+      background: #031451;
+
+      color: #ffffff;
+
+      padding: 8px 16px;
+
+      border-radius: 30px;
+
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+
+    /* =====================================
+       INSTRUCCIÓN
+    ====================================== */
+
+    .instruccion {
+      margin-bottom: 22px;
+
+      color: #56628D;
+
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+
+    /* =====================================
+       PREGUNTA
+    ====================================== */
+
+    .pregunta {
+      min-height: 145px;
+
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 28px;
+
+      color: #181818;
+
+      font-size: clamp(1.05rem, 1.7vw, 1.28rem);
+
+      font-weight: 400;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================
+       OPCIONES
+    ====================================== */
+
+    .opciones {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 18px;
+
+      margin-bottom: 24px;
+    }
+
+    .opcion {
+      border: 2px solid #56628D;
+
+      background: #ffffff;
+
+      color: #031451;
+
+      border-radius: 16px;
+
+      padding: 16px 20px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 1rem;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .opcion:hover:not(:disabled) {
+      background: #56628D;
+
+      color: #ffffff;
+
+      transform: translateY(-2px);
+    }
+
+    .opcion:disabled {
+      cursor: default;
+    }
+
+
+    /* =====================================
+       RESPUESTA CORRECTA
+    ====================================== */
+
+    .opcion.correcta {
+      background: #2E7D32;
+
+      border-color: #2E7D32;
+
+      color: #ffffff;
+    }
+
+
+    /* =====================================
+       RESPUESTA INCORRECTA
+    ====================================== */
+
+    .opcion.incorrecta {
+      background: #C62828;
+
+      border-color: #C62828;
+
+      color: #ffffff;
+    }
+
+
+    /* =====================================
+       REALIMENTACIÓN
+    ====================================== */
+
+    .realimentacion {
+      display: none;
+
+      margin-top: 10px;
+
+      padding: 22px 24px;
+
+      border-radius: 16px;
+
+      background: #F5F6FA;
+
+      border-left: 6px solid #56628D;
+    }
+
+    .realimentacion.visible {
+      display: block;
+
+      animation:
+        mostrarFeedback
+        0.5s ease;
+    }
+
+
+    @keyframes mostrarFeedback {
+
+      from {
+        opacity: 0;
+
+        transform:
+          translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+      }
+
+    }
+
+
+    .estado-respuesta {
+      margin-bottom: 10px;
+
+      font-size: 1.05rem;
+
+      font-weight: 700;
+    }
+
+    .estado-respuesta.correcto {
+      color: #2E7D32;
+    }
+
+    .estado-respuesta.incorrecto {
+      color: #C62828;
+    }
+
+    .realimentacion h3 {
+      margin-bottom: 8px;
+
+      color: #031451;
+
+      font-size: 1rem;
+
+      font-weight: 700;
+    }
+
+    .realimentacion p {
+      color: #333333;
+
+      font-size: 0.98rem;
+
+      line-height: 1.65;
+    }
+
+
+    /* =====================================
+       ACCIONES
+    ====================================== */
+
+    .acciones {
+      display: flex;
+
+      justify-content: flex-end;
+
+      margin-top: 24px;
+    }
+
+    .siguiente {
+      display: none;
+
+      border: none;
+
+      border-radius: 14px;
+
+      background: #031451;
+
+      color: #ffffff;
+
+      padding: 13px 25px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 0.95rem;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .siguiente.visible {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 9px;
+    }
+
+    .siguiente:hover {
+      background: #56628D;
+
+      transform:
+        translateX(3px);
+    }
+
+
+    /* =====================================
+       RESULTADO FINAL
+    ====================================== */
+
+    .resultado-final {
+      display: none;
+
+      text-align: center;
+
+      padding: 25px 10px;
+    }
+
+    .resultado-final.visible {
+      display: block;
+
+      animation:
+        mostrarFeedback
+        0.5s ease;
+    }
+
+    .resultado-final h2 {
+      margin-bottom: 15px;
+
+      color: #031451;
+
+      font-size:
+        clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    .puntaje {
+      margin-bottom: 8px;
+
+      color: #56628D;
+
+      font-size:
+        clamp(2.6rem, 6vw, 4rem);
+
+      font-weight: 700;
+    }
+
+    .resultado-final p {
+      margin-bottom: 25px;
+
+      color: #444444;
+
+      font-size: 1rem;
+    }
+
+    .reiniciar {
+      border: none;
+
+      border-radius: 14px;
+
+      background: #031451;
+
+      color: #ffffff;
+
+      padding: 13px 28px;
+
+      font-family: "Poppins", sans-serif;
+
+      font-size: 0.95rem;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        background 0.25s ease;
+    }
+
+    .reiniciar:hover {
+      background: #56628D;
+    }
+
+
+    /* =====================================
+       RESPONSIVE
+    ====================================== */
+
+    @media (max-width: 650px) {
+
+      .quiz {
+        padding: 25px 20px;
+      }
+
+      .encabezado {
+        align-items: flex-start;
+      }
+
+      .pregunta {
+        min-height: auto;
+
+        line-height: 1.55;
+      }
+
+      .opciones {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="quiz">
+
+
+    <!-- =====================================
+         EJERCICIO
+    ====================================== -->
+
+    <section id="areaQuiz">
+
+
+      <!-- ENCABEZADO -->
+
+      <div class="encabezado">
+
+        <h1 class="titulo">
+          Ejercicio de repaso
+        </h1>
+
+        <div
+          class="contador"
+          id="contador"
+        >
+          1 de 3
+        </div>
+
+      </div>
+
+
+      <!-- INSTRUCCIÓN -->
+
+      <div class="instruccion">
+        Seleccione Verdadero o Falso.
+      </div>
+
+
+      <!-- PREGUNTA -->
+
+      <div
+        class="pregunta"
+        id="pregunta"
+      ></div>
+
+
+      <!-- OPCIONES -->
+
+      <div class="opciones">
+
+        <button
+          type="button"
+          class="opcion"
+          id="verdadero"
+        >
+          Verdadero
+        </button>
+
+
+        <button
+          type="button"
+          class="opcion"
+          id="falso"
+        >
+          Falso
+        </button>
+
+      </div>
+
+
+      <!-- REALIMENTACIÓN -->
+
+      <div
+        class="realimentacion"
+        id="realimentacion"
+      >
+
+        <div
+          class="estado-respuesta"
+          id="estadoRespuesta"
+        ></div>
+
+        <h3>
+          Realimentación:
+        </h3>
+
+        <p id="textoRealimentacion"></p>
+
+      </div>
+
+
+      <!-- SIGUIENTE -->
+
+      <div class="acciones">
+
+        <button
+          type="button"
+          class="siguiente"
+          id="siguiente"
+        >
+          Siguiente
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         RESULTADO FINAL
+    ====================================== -->
+
+    <section
+      class="resultado-final"
+      id="resultadoFinal"
+    >
+
+      <h2>
+        Resultado final
+      </h2>
+
+      <div
+        class="puntaje"
+        id="puntaje"
+      >
+        0/3
+      </div>
+
+      <p id="mensajeResultado"></p>
+
+
+      <button
+        type="button"
+        class="reiniciar"
+        id="reiniciar"
+      >
+        Intentar nuevamente
+      </button>
+
+    </section>
+
+  </main>
+
+
+
+  <script>
+
+    /* =====================================
+       PREGUNTAS
+    ====================================== */
+
+    const ejercicios = [
+
+      {
+
+        enunciado:
+          `El rendimiento en dólares de una inversión se obtiene sumando los dividendos recibidos y la ganancia o pérdida de capital.`,
+
+        respuesta: true,
+
+        realimentacion:
+          `El rendimiento en dólares considera tanto los ingresos por dividendos como la variación del valor de la inversión.`
+
+      },
+
+
+      {
+
+        enunciado:
+          `Un activo con una mayor desviación estándar presenta un menor nivel de riesgo.`,
+
+        respuesta: false,
+
+        realimentacion:
+          `Una mayor desviación estándar indica una mayor dispersión de los rendimientos y, por tanto, un mayor nivel de riesgo.`
+
+      },
+
+
+      {
+
+        enunciado:
+          `El promedio geométrico es más apropiado que el promedio aritmético para evaluar el desempeño de una inversión en el largo plazo.`,
+
+        respuesta: true,
+
+        realimentacion:
+          `El promedio geométrico incorpora el efecto de la capitalización de los rendimientos, por lo que resulta adecuado para evaluar períodos de inversión prolongados.`
+
+      }
+
+    ];
+
+
+
+    /* =====================================
+       VARIABLES
+    ====================================== */
+
+    let indice = 0;
+
+    let correctas = 0;
+
+    let respondida = false;
+
+
+
+    /* =====================================
+       ELEMENTOS
+    ====================================== */
+
+    const areaQuiz =
+      document.getElementById(
+        "areaQuiz"
+      );
+
+    const contador =
+      document.getElementById(
+        "contador"
+      );
+
+    const pregunta =
+      document.getElementById(
+        "pregunta"
+      );
+
+    const verdadero =
+      document.getElementById(
+        "verdadero"
+      );
+
+    const falso =
+      document.getElementById(
+        "falso"
+      );
+
+    const realimentacion =
+      document.getElementById(
+        "realimentacion"
+      );
+
+    const estadoRespuesta =
+      document.getElementById(
+        "estadoRespuesta"
+      );
+
+    const textoRealimentacion =
+      document.getElementById(
+        "textoRealimentacion"
+      );
+
+    const siguiente =
+      document.getElementById(
+        "siguiente"
+      );
+
+    const resultadoFinal =
+      document.getElementById(
+        "resultadoFinal"
+      );
+
+    const puntaje =
+      document.getElementById(
+        "puntaje"
+      );
+
+    const mensajeResultado =
+      document.getElementById(
+        "mensajeResultado"
+      );
+
+    const reiniciar =
+      document.getElementById(
+        "reiniciar"
+      );
+
+
+
+    /* =====================================
+       MOSTRAR PREGUNTA
+    ====================================== */
+
+    function mostrarPregunta() {
+
+      respondida = false;
+
+
+      const ejercicio =
+        ejercicios[indice];
+
+
+      contador.textContent =
+        `${indice + 1} de ${ejercicios.length}`;
+
+
+      pregunta.textContent =
+        `${indice + 1}. ${ejercicio.enunciado}`;
+
+
+      /* Restaurar botones */
+
+      verdadero.disabled = false;
+
+      falso.disabled = false;
+
+
+      verdadero.classList.remove(
+        "correcta",
+        "incorrecta"
+      );
+
+      falso.classList.remove(
+        "correcta",
+        "incorrecta"
+      );
+
+
+      /* Ocultar realimentación */
+
+      realimentacion.classList.remove(
+        "visible"
+      );
+
+
+      siguiente.classList.remove(
+        "visible"
+      );
+
+
+      /* Cambiar botón última pregunta */
+
+      if (
+        indice ===
+        ejercicios.length - 1
+      ) {
+
+        siguiente.innerHTML =
+          `Ver resultado <span>→</span>`;
+
+      }
+
+      else {
+
+        siguiente.innerHTML =
+          `Siguiente <span>→</span>`;
+
+      }
+
+    }
+
+
+
+    /* =====================================
+       VALIDAR RESPUESTA
+    ====================================== */
+
+    function comprobarRespuesta(
+      respuestaUsuario,
+      boton
+    ) {
+
+      if (respondida) {
+        return;
+      }
+
+
+      respondida = true;
+
+
+      const ejercicio =
+        ejercicios[indice];
+
+
+      const correcta =
+        respuestaUsuario ===
+        ejercicio.respuesta;
+
+
+      /* Desactivar botones */
+
+      verdadero.disabled = true;
+
+      falso.disabled = true;
+
+
+
+      /* RESPUESTA CORRECTA */
+
+      if (correcta) {
+
+        boton.classList.add(
+          "correcta"
+        );
+
+
+        estadoRespuesta.textContent =
+          "¡Respuesta correcta!";
+
+
+        estadoRespuesta.className =
+          "estado-respuesta correcto";
+
+
+        correctas++;
+
+      }
+
+
+      /* RESPUESTA INCORRECTA */
+
+      else {
+
+        boton.classList.add(
+          "incorrecta"
+        );
+
+
+        estadoRespuesta.textContent =
+          "Respuesta incorrecta.";
+
+
+        estadoRespuesta.className =
+          "estado-respuesta incorrecto";
+
+
+        /* Mostrar cuál era correcta */
+
+        if (ejercicio.respuesta) {
+
+          verdadero.classList.add(
+            "correcta"
+          );
+
+        }
+
+        else {
+
+          falso.classList.add(
+            "correcta"
+          );
+
+        }
+
+      }
+
+
+
+      /* Mostrar realimentación */
+
+      textoRealimentacion.textContent =
+        ejercicio.realimentacion;
+
+
+      realimentacion.classList.add(
+        "visible"
+      );
+
+
+      siguiente.classList.add(
+        "visible"
+      );
+
+    }
+
+
+
+    /* =====================================
+       VERDADERO
+    ====================================== */
+
+    verdadero.addEventListener(
+      "click",
+      function () {
+
+        comprobarRespuesta(
+          true,
+          verdadero
+        );
+
+      }
+    );
+
+
+
+    /* =====================================
+       FALSO
+    ====================================== */
+
+    falso.addEventListener(
+      "click",
+      function () {
+
+        comprobarRespuesta(
+          false,
+          falso
+        );
+
+      }
+    );
+
+
+
+    /* =====================================
+       SIGUIENTE
+    ====================================== */
+
+    siguiente.addEventListener(
+      "click",
+      function () {
+
+        indice++;
+
+
+        if (
+          indice <
+          ejercicios.length
+        ) {
+
+          mostrarPregunta();
+
+        }
+
+        else {
+
+          mostrarResultado();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================
+       RESULTADO
+    ====================================== */
+
+    function mostrarResultado() {
+
+      areaQuiz.style.display =
+        "none";
+
+
+      resultadoFinal.classList.add(
+        "visible"
+      );
+
+
+      puntaje.textContent =
+        `${correctas}/${ejercicios.length}`;
+
+
+      const porcentaje =
+        Math.round(
+          (
+            correctas /
+            ejercicios.length
+          )
+          * 100
+        );
+
+
+      mensajeResultado.textContent =
+        `Obtuvo ${porcentaje}% de respuestas correctas.`;
+
+    }
+
+
+
+    /* =====================================
+       REINICIAR
+    ====================================== */
+
+    reiniciar.addEventListener(
+      "click",
+      function () {
+
+        indice = 0;
+
+        correctas = 0;
+
+        respondida = false;
+
+
+        resultadoFinal.classList.remove(
+          "visible"
+        );
+
+
+        areaQuiz.style.display =
+          "block";
+
+
+        mostrarPregunta();
+
+      }
+    );
+
+
+
+    /* =====================================
+       INICIO
+    ====================================== */
+
+    mostrarPregunta();
+
+  </script>
+
+</body>
+</html>

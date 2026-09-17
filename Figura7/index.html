@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Indicadores del Mercado de Valores</title>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Swiper -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  >
+
+  <style>
+
+    /* =====================================
+       GENERAL
+    ====================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+      color: #03223D;
+      overflow-x: hidden;
+    }
+
+
+    /* =====================================
+       CONTENEDOR GENERAL
+    ====================================== */
+
+    main {
+      width: min(1500px, 96%);
+      margin: 0 auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 100vh;
+
+      padding: 30px 0;
+    }
+
+
+    .carrusel-contenedor {
+      width: 100%;
+    }
+
+
+    /* =====================================
+       INSTRUCCIÓN
+    ====================================== */
+
+    .instruccion {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      gap: 8px;
+
+      margin-bottom: 5px;
+      padding-right: 15px;
+
+      color: #03223D;
+
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .instruccion strong {
+      font-weight: 700;
+    }
+
+    .flecha-instruccion {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 28px;
+      height: 28px;
+
+      border-radius: 50%;
+
+      background: #356389;
+      color: #ffffff;
+
+      font-size: 1.1rem;
+      font-weight: 700;
+
+      line-height: 1;
+    }
+
+
+    /* =====================================
+       SWIPER
+    ====================================== */
+
+    .swiper-indicadores {
+      width: 100%;
+
+      padding:
+        55px
+        65px
+        80px;
+
+      overflow: hidden;
+    }
+
+    .swiper-indicadores .swiper-wrapper {
+      align-items: center;
+    }
+
+
+    /* =====================================
+       TARJETAS
+    ====================================== */
+
+    .swiper-indicadores .swiper-slide {
+      width: 330px;
+      height: 420px;
+
+      position: relative;
+
+      background: #ffffff;
+
+      border: 3px solid #c4d0da;
+
+      border-radius: 25px;
+
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: grab;
+
+      box-shadow:
+        0 15px 35px
+        rgba(3, 34, 61, 0.12);
+
+      transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+    }
+
+    .swiper-indicadores .swiper-slide:active {
+      cursor: grabbing;
+    }
+
+
+    /* =====================================
+       FRANJA LATERAL
+    ====================================== */
+
+    .swiper-indicadores .swiper-slide::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 16px;
+      height: 100%;
+
+      background: #356389;
+
+      z-index: 3;
+    }
+
+
+    /* =====================================
+       DECORACIÓN
+    ====================================== */
+
+    .swiper-indicadores .swiper-slide::after {
+      content: "";
+
+      position: absolute;
+
+      width: 250px;
+      height: 250px;
+
+      border-radius: 50%;
+
+      top: -120px;
+      right: -110px;
+
+      background:
+        rgba(53, 99, 137, 0.07);
+
+      z-index: 0;
+    }
+
+
+    /* =====================================
+       CONTENIDO
+    ====================================== */
+
+    .contenido {
+      position: relative;
+
+      z-index: 2;
+
+      width: 100%;
+      height: 100%;
+
+      padding:
+        32px
+        28px
+        32px
+        40px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* =====================================
+       NÚMERO
+    ====================================== */
+
+    .numero {
+      width: 52px;
+      height: 52px;
+
+      flex-shrink: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: #03223D;
+
+      color: #ffffff;
+
+      font-size: 1rem;
+      font-weight: 700;
+
+      transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+    }
+
+
+    /* =====================================
+       TEXTOS
+    ====================================== */
+
+    .texto-tarjeta {
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      gap: 18px;
+    }
+
+    .texto-tarjeta h2 {
+      color: #03223D;
+
+      font-size: 1.45rem;
+      line-height: 1.25;
+
+      font-weight: 700;
+    }
+
+    .texto-tarjeta p {
+      color: #356389;
+
+      font-size: 1rem;
+      line-height: 1.55;
+
+      font-weight: 400;
+    }
+
+
+    /* =====================================
+       TARJETA ACTIVA
+    ====================================== */
+
+    .swiper-indicadores .swiper-slide-active {
+      border-color: #356389;
+
+      box-shadow:
+        0 25px 50px
+        rgba(3, 34, 61, 0.22);
+    }
+
+    .swiper-indicadores
+    .swiper-slide-active
+    .numero {
+      background: #356389;
+
+      transform: scale(1.08);
+    }
+
+
+    /* =====================================
+       HOVER
+    ====================================== */
+
+    .swiper-indicadores .swiper-slide:hover {
+      border-color: #356389;
+    }
+
+
+    /* =====================================
+       FLECHAS
+    ====================================== */
+
+    .btn-prev-indicadores,
+    .btn-next-indicadores {
+      position: absolute;
+
+      top: 50%;
+
+      width: 52px;
+      height: 52px;
+
+      margin-top: -26px;
+
+      border-radius: 50%;
+
+      background: #03223D;
+
+      color: #ffffff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      z-index: 20;
+
+      box-shadow:
+        0 8px 22px
+        rgba(3, 34, 61, 0.22);
+
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+
+    .btn-prev-indicadores {
+      left: 5px;
+    }
+
+    .btn-next-indicadores {
+      right: 5px;
+    }
+
+
+    /* Flecha izquierda */
+
+    .btn-prev-indicadores::before {
+      content: "‹";
+
+      font-family: Arial, sans-serif;
+
+      font-size: 2rem;
+      font-weight: 400;
+
+      line-height: 1;
+
+      transform: translateY(-2px);
+    }
+
+
+    /* Flecha derecha */
+
+    .btn-next-indicadores::before {
+      content: "›";
+
+      font-family: Arial, sans-serif;
+
+      font-size: 2rem;
+      font-weight: 400;
+
+      line-height: 1;
+
+      transform: translateY(-2px);
+    }
+
+
+    .btn-prev-indicadores:hover,
+    .btn-next-indicadores:hover {
+      background: #356389;
+
+      transform: scale(1.1);
+
+      box-shadow:
+        0 12px 28px
+        rgba(3, 34, 61, 0.28);
+    }
+
+
+    /* =====================================
+       PAGINACIÓN
+    ====================================== */
+
+    .paginacion-indicadores {
+      position: absolute;
+
+      bottom: 18px !important;
+
+      width: 100%;
+
+      text-align: center;
+
+      z-index: 10;
+    }
+
+
+    .paginacion-indicadores
+    .swiper-pagination-bullet {
+      width: 9px;
+      height: 9px;
+
+      background: #356389;
+
+      opacity: 0.3;
+
+      transition: all 0.3s ease;
+    }
+
+
+    .paginacion-indicadores
+    .swiper-pagination-bullet-active {
+      width: 28px;
+
+      border-radius: 20px;
+
+      background: #03223D;
+
+      opacity: 1;
+    }
+
+
+    /* =====================================
+       QUITAR SOMBRAS SWIPER
+    ====================================== */
+
+    .swiper-3d
+    .swiper-slide-shadow-left,
+
+    .swiper-3d
+    .swiper-slide-shadow-right {
+      background-image: none;
+    }
+
+
+    /* =====================================
+       TABLET
+    ====================================== */
+
+    @media (max-width: 900px) {
+
+      .instruccion {
+        padding-right: 5px;
+
+        font-size: 0.88rem;
+      }
+
+      .swiper-indicadores {
+        padding:
+          45px
+          55px
+          75px;
+      }
+
+      .swiper-indicadores .swiper-slide {
+        height: 390px;
+      }
+
+      .texto-tarjeta h2 {
+        font-size: 1.25rem;
+      }
+
+      .texto-tarjeta p {
+        font-size: 0.93rem;
+      }
+
+    }
+
+
+    /* =====================================
+       MÓVIL
+    ====================================== */
+
+    @media (max-width: 600px) {
+
+      main {
+        min-height: auto;
+
+        padding: 20px 0;
+      }
+
+      .instruccion {
+        justify-content: center;
+
+        text-align: center;
+
+        padding: 0 10px;
+
+        margin-bottom: 5px;
+
+        font-size: 0.82rem;
+      }
+
+      .swiper-indicadores {
+        padding:
+          40px
+          48px
+          70px;
+      }
+
+      .swiper-indicadores .swiper-slide {
+        width: 270px;
+        height: 360px;
+      }
+
+      .contenido {
+        padding:
+          27px
+          22px
+          27px
+          35px;
+      }
+
+      .numero {
+        width: 46px;
+        height: 46px;
+
+        font-size: 0.9rem;
+      }
+
+      .texto-tarjeta h2 {
+        font-size: 1.15rem;
+      }
+
+      .texto-tarjeta p {
+        font-size: 0.88rem;
+
+        line-height: 1.5;
+      }
+
+      .btn-prev-indicadores,
+      .btn-next-indicadores {
+        width: 42px;
+        height: 42px;
+
+        margin-top: -21px;
+      }
+
+      .btn-prev-indicadores::before,
+      .btn-next-indicadores::before {
+        font-size: 1.7rem;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main>
+
+    <div class="carrusel-contenedor">
+
+
+      <!-- =====================================
+           INSTRUCCIÓN
+      ====================================== -->
+
+      <div class="instruccion">
+
+        <span>
+          Haga clic sobre las
+          <strong>flechas</strong>
+        </span>
+
+        <span class="flecha-instruccion">
+          &gt;
+        </span>
+
+        <span>
+          para navegar.
+        </span>
+
+      </div>
+
+
+
+      <!-- =====================================
+           CARRUSEL
+      ====================================== -->
+
+      <section class="swiper swiper-indicadores">
+
+        <div class="swiper-wrapper">
+
+
+          <!-- =================================
+               GRUPO A (original)
+          ================================== -->
+
+          <!-- TARJETA 1 -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                01
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Tamaño de Mercado
+                </h2>
+
+                <p>
+                  Capitalización bursátil en relación con el PIB.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 2 -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                02
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Liquidez
+                </h2>
+
+                <p>
+                  Valor total en pesos de los valores transados en relación con el PIB.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 3 -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                03
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Eficiencia
+                </h2>
+
+                <p>
+                  Liquidez del mercado en relación con el tamaño del mercado.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 4 -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                04
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Concentración del Mercado
+                </h2>
+
+                <p>
+                  Proporción de las acciones de los diez principales emisores en relación con la capitalización bursátil total.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- =================================
+               GRUPO B (duplicado para loop)
+          ================================== -->
+
+          <!-- TARJETA 1 (copia) -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                01
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Tamaño de Mercado
+                </h2>
+
+                <p>
+                  Capitalización bursátil en relación con el PIB.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 2 (copia) -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                02
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Liquidez
+                </h2>
+
+                <p>
+                  Valor total en pesos de los valores transados en relación con el PIB.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 3 (copia) -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                03
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Eficiencia
+                </h2>
+
+                <p>
+                  Liquidez del mercado en relación con el tamaño del mercado.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- TARJETA 4 (copia) -->
+
+          <article class="swiper-slide">
+
+            <div class="contenido">
+
+              <div class="numero">
+                04
+              </div>
+
+              <div class="texto-tarjeta">
+
+                <h2>
+                  Concentración del Mercado
+                </h2>
+
+                <p>
+                  Proporción de las acciones de los diez principales emisores en relación con la capitalización bursátil total.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+
+
+        <!-- FLECHA IZQUIERDA -->
+
+        <div
+          class="btn-prev-indicadores"
+          role="button"
+          tabindex="0"
+          aria-label="Tarjeta anterior"
+        ></div>
+
+
+
+        <!-- FLECHA DERECHA -->
+
+        <div
+          class="btn-next-indicadores"
+          role="button"
+          tabindex="0"
+          aria-label="Tarjeta siguiente"
+        ></div>
+
+
+
+        <!-- PAGINACIÓN -->
+
+        <div class="paginacion-indicadores"></div>
+
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+
+  <!-- SWIPER -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+  ></script>
+
+
+
+  <script>
+
+    const carruselIndicadores =
+      document.querySelector(".swiper-indicadores");
+
+
+    const swiperIndicadores =
+      new Swiper(carruselIndicadores, {
+
+
+        /* =====================================
+           CONFIGURACIÓN GENERAL
+        ====================================== */
+
+        effect: "coverflow",
+
+        grabCursor: true,
+
+        centeredSlides: true,
+
+        /*
+          El loop funciona correctamente
+          ahora que hay 8 slides (4 + 4 copias).
+        */
+
+        loop: true,
+
+        speed: 650,
+
+
+        /* =====================================
+           OBSERVACIÓN
+        ====================================== */
+
+        observer: true,
+
+        observeParents: true,
+
+
+        /* =====================================
+           COVERFLOW
+        ====================================== */
+
+        coverflowEffect: {
+
+          rotate: 0,
+
+          stretch: 0,
+
+          depth: 130,
+
+          modifier: 2.4,
+
+          slideShadows: false
+
+        },
+
+
+        /* =====================================
+           TECLADO
+        ====================================== */
+
+        keyboard: {
+
+          enabled: true,
+
+          onlyInViewport: true
+
+        },
+
+
+        /* =====================================
+           PAGINACIÓN
+        ====================================== */
+
+        pagination: {
+
+          el: ".paginacion-indicadores",
+
+          clickable: true
+
+        },
+
+
+        /* =====================================
+           NAVEGACIÓN
+        ====================================== */
+
+        navigation: {
+
+          nextEl: ".btn-next-indicadores",
+
+          prevEl: ".btn-prev-indicadores"
+
+        },
+
+
+        /* =====================================
+           RESPONSIVE
+        ====================================== */
+
+        breakpoints: {
+
+
+          0: {
+
+            slidesPerView: 1.05,
+
+            spaceBetween: 18
+
+          },
+
+
+          640: {
+
+            slidesPerView: 1.8,
+
+            spaceBetween: 25
+
+          },
+
+
+          900: {
+
+            slidesPerView: 2.3,
+
+            spaceBetween: 28
+
+          },
+
+
+          1200: {
+
+            slidesPerView: 2.8,
+
+            spaceBetween: 30
+
+          },
+
+
+          1450: {
+
+            slidesPerView: 3.2,
+
+            spaceBetween: 32
+
+          }
+
+        }
+
+      });
+
+  </script>
+
+</body>
+
+</html>

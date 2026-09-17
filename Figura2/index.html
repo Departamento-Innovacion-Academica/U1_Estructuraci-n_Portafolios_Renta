@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mercado de Valores - Participantes</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #ffffff;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 20px;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           CONTENEDOR
+        ========================================== */
+
+        .container {
+            width: 100%;
+            max-width: 1500px;
+
+            margin: auto;
+
+            background: #ffffff;
+        }
+
+
+        .scene {
+            width: 100%;
+
+            min-height: 860px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+        }
+
+
+
+        /* =========================================
+           BLOQUE SUPERIOR
+        ========================================== */
+
+        .block-top {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+
+            text-align: center;
+
+            margin-bottom: 55px;
+
+            opacity: 0;
+
+            transform: translateY(-80px);
+
+            animation:
+                entradaSuperior
+                1.2s
+                cubic-bezier(.22, 1, .36, 1)
+                0.2s
+                forwards;
+        }
+
+
+        @keyframes entradaSuperior {
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+
+        /* =========================================
+           FILA PRINCIPAL
+        ========================================== */
+
+        .middle-row {
+            width: 100%;
+            max-width: 1400px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 40px;
+        }
+
+
+
+        /* =========================================
+           IZQUIERDA
+        ========================================== */
+
+        .block-left {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 20px;
+
+            flex: 1;
+
+            text-align: right;
+
+            opacity: 0;
+
+            transform: translateX(-150px);
+
+            animation:
+                entradaIzquierda
+                1.2s
+                cubic-bezier(.22, 1, .36, 1)
+                0.5s
+                forwards;
+        }
+
+
+        @keyframes entradaIzquierda {
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+        }
+
+
+
+        /* =========================================
+           DERECHA
+        ========================================== */
+
+        .block-right {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-start;
+
+            gap: 20px;
+
+            flex: 1;
+
+            text-align: left;
+
+            opacity: 0;
+
+            transform: translateX(150px);
+
+            animation:
+                entradaDerecha
+                1.2s
+                cubic-bezier(.22, 1, .36, 1)
+                0.5s
+                forwards;
+        }
+
+
+        @keyframes entradaDerecha {
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+        }
+
+
+
+        /* =========================================
+           CENTRO
+        ========================================== */
+
+        .center-wrapper {
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+
+            transform: scale(.4);
+
+            animation:
+                entradaCentro
+                1.15s
+                cubic-bezier(.22, 1, .36, 1)
+                .1s
+                forwards;
+        }
+
+
+        @keyframes entradaCentro {
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+
+        /* =========================================
+           TEXTOS
+        ========================================== */
+
+        .block-title {
+            font-family: "Poppins", sans-serif;
+
+            font-size: 1.7rem;
+
+            font-weight: 700;
+
+            line-height: 1.15;
+
+            color: #3E368A;
+
+            margin-bottom: 12px;
+        }
+
+
+        .block-desc {
+            font-family: "Poppins", sans-serif;
+
+            font-size: 1.05rem;
+
+            font-weight: 400;
+
+            line-height: 1.45;
+
+            color: #3E368A;
+
+            max-width: 280px;
+        }
+
+
+        .block-top .block-title,
+        .block-top .block-desc {
+            color: #356389;
+        }
+
+
+        .block-text {
+            max-width: 300px;
+        }
+
+
+
+        /* =========================================
+           ENGRANAJES ORIGINALES
+        ========================================== */
+
+        .gear-box {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .gear-img {
+            display: block;
+
+            object-fit: contain;
+
+            transform-origin: center center;
+
+            will-change: transform;
+        }
+
+
+        /* SUPERIOR */
+
+        .gear-top {
+            width: 180px;
+            height: auto;
+
+            animation:
+                giroAntihorario
+                20s
+                linear
+                infinite;
+        }
+
+
+        /* CENTRAL */
+
+        .gear-center {
+            width: 390px;
+            height: auto;
+
+            animation:
+                giroHorario
+                30s
+                linear
+                infinite;
+        }
+
+
+        /* LATERALES */
+
+        .gear-side {
+            width: 190px;
+            height: auto;
+
+            animation:
+                giroAntihorario
+                24s
+                linear
+                infinite;
+        }
+
+
+
+        @keyframes giroHorario {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        @keyframes giroAntihorario {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+
+        }
+
+
+
+        /* Pausar al pasar el mouse */
+
+        .gear-img:hover {
+            animation-play-state: paused;
+        }
+
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1200px) {
+
+            .middle-row {
+                gap: 20px;
+            }
+
+            .gear-center {
+                width: 310px;
+            }
+
+            .gear-side {
+                width: 150px;
+            }
+
+            .gear-top {
+                width: 150px;
+            }
+
+            .block-title {
+                font-size: 1.35rem;
+            }
+
+            .block-desc {
+                font-size: .9rem;
+                max-width: 220px;
+            }
+
+        }
+
+
+
+        @media (max-width: 900px) {
+
+            .scene {
+                min-height: auto;
+                gap: 30px;
+            }
+
+            .block-top {
+                margin-bottom: 35px;
+            }
+
+            .middle-row {
+                flex-direction: column;
+            }
+
+            .center-wrapper {
+                order: -1;
+            }
+
+            .block-left,
+            .block-right {
+                width: 100%;
+
+                justify-content: center;
+
+                text-align: center;
+            }
+
+            .block-left {
+                flex-direction: row;
+            }
+
+            .block-right {
+                flex-direction: row;
+            }
+
+            .block-text {
+                text-align: center;
+            }
+
+            .gear-center {
+                width: 250px;
+            }
+
+            .gear-side {
+                width: 130px;
+            }
+
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 10px;
+            }
+
+            .block-top {
+                margin-bottom: 25px;
+            }
+
+            .gear-center {
+                width: 210px;
+            }
+
+            .gear-top {
+                width: 125px;
+            }
+
+            .gear-side {
+                width: 110px;
+            }
+
+            .block-left,
+            .block-right {
+                gap: 10px;
+            }
+
+            .block-title {
+                font-size: 1.1rem;
+            }
+
+            .block-desc {
+                font-size: .8rem;
+            }
+
+        }
+
+
+
+        /* =========================================
+           ACCESIBILIDAD
+        ========================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .block-top,
+            .block-left,
+            .block-right,
+            .center-wrapper {
+                opacity: 1;
+                transform: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="container">
+
+        <section class="scene">
+
+
+            <!-- =====================================
+                 INVERSIONISTAS
+            ====================================== -->
+
+            <div class="block-top">
+
+                <div class="block-title">
+                    Inversionistas
+                </div>
+
+                <div class="block-desc">
+                    Individuos y organizaciones que invierten en valores.
+                </div>
+
+
+                <div
+                    class="gear-box"
+                    style="margin-top: 20px;"
+                >
+
+                    <img
+                        src="gear-inversionistas.png"
+                        alt=""
+                        class="gear-img gear-top"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 FILA INFERIOR
+            ====================================== -->
+
+            <div class="middle-row">
+
+
+                <!-- =================================
+                     INFRAESTRUCTURA
+                ================================== -->
+
+                <div class="block-left">
+
+                    <div class="block-text">
+
+                        <div class="block-title">
+                            Entidades de<br>
+                            Infraestructura
+                        </div>
+
+                        <div class="block-desc">
+                            Organizaciones que facilitan las operaciones del mercado.
+                        </div>
+
+                    </div>
+
+
+                    <div class="gear-box">
+
+                        <img
+                            src="gear-infraestructura.png"
+                            alt=""
+                            class="gear-img gear-side"
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     ENGRANAJE CENTRAL
+                ================================== -->
+
+                <div class="center-wrapper">
+
+                    <div class="gear-box">
+
+                        <img
+                            src="gear-central.png"
+                            alt=""
+                            class="gear-img gear-center"
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     EMISORES
+                ================================== -->
+
+                <div class="block-right">
+
+                    <div class="gear-box">
+
+                        <img
+                            src="gear-emisores.png"
+                            alt=""
+                            class="gear-img gear-side"
+                        >
+
+                    </div>
+
+
+                    <div class="block-text">
+
+                        <div class="block-title">
+                            Emisores
+                        </div>
+
+                        <div class="block-desc">
+                            Empresas que emiten acciones y bonos para recaudar capital.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

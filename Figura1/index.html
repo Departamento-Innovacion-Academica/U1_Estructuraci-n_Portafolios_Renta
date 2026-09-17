@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Financiero - Estructura Jerárquica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 1200px;
+            width: 100%;
+            padding: 48px 44px 56px;
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(3, 34, 61, 0.10);
+            overflow-x: auto;
+        }
+
+        /* ==========================================================
+           ESTRUCTURA DE ÁRBOL VERTICAL
+           ========================================================== */
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            min-width: 900px;
+        }
+
+        /* Nodos base */
+        .node {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+            cursor: default;
+            position: relative;
+            z-index: 2;
+            min-width: 220px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInNode 0.6s ease forwards;
+        }
+
+        @keyframes fadeInNode {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(3, 34, 61, 0.18);
+        }
+
+        /* ==========================================================
+           COLORES POR NIVEL
+           ========================================================== */
+
+        /* Raíz */
+        .node-root {
+            background: #03223D;
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 18px 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(3, 34, 61, 0.25);
+            animation-delay: 0.1s;
+        }
+
+        /* Nivel 1 - Mercados */
+        .node-level-1 {
+            background: #356389;
+            color: #ffffff;
+            font-weight: 600;
+            animation-delay: 0.3s;
+        }
+
+        .node-level-1.dark {
+            background: #03223D;
+            color: #ffffff;
+        }
+
+        /* Nivel 2 - Tipos de mercado */
+        .node-level-2 {
+            background: #356389;
+            color: #ffffff;
+            font-weight: 600;
+            animation-delay: 0.5s;
+            min-width: 260px;
+        }
+
+        .node-level-2.dark {
+            background: #03223D;
+            color: #ffffff;
+        }
+
+        /* Nivel 3 - Nietos */
+        .node-level-3 {
+            background: #3E368A;
+            color: #ffffff;
+            font-weight: 500;
+            min-width: 180px;
+            font-size: 0.9rem;
+            animation-delay: 0.7s;
+        }
+
+        .node-level-3.dark {
+            background: #03223D;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* ==========================================================
+           CONECTORES (LÍNEAS)
+           ========================================================== */
+        .connector-vertical {
+            width: 2px;
+            background: #03223D;
+            height: 40px;
+            transform-origin: top;
+            transform: scaleY(0);
+            animation: growLine 0.4s ease 0.2s forwards;
+        }
+
+        @keyframes growLine {
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        /* Contenedor de hijos con línea horizontal arriba */
+        .children-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            gap: 20px;
+            padding-top: 40px;
+        }
+
+        .children-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: var(--line-width, 60%);
+            height: 2px;
+            background: #03223D;
+            transform-origin: center;
+            animation: growLineH 0.5s ease 0.3s forwards;
+        }
+
+        @keyframes growLineH {
+            to {
+                transform: translateX(-50%) scaleX(1);
+            }
+        }
+
+        /* Cada hijo con su pequeña línea vertical hacia arriba */
+        .child-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .child-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: #03223D;
+            transform: translateX(-50%) scaleY(0);
+            transform-origin: top;
+            animation: growLineV 0.4s ease 0.5s forwards;
+        }
+
+        @keyframes growLineV {
+            to {
+                transform: translateX(-50%) scaleY(1);
+            }
+        }
+
+        /* Sub-grupo dentro de un hijo (nietos) */
+        .subtree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Fila de nietos (Bancario / No Bancario) */
+        .grandchildren-row {
+            display: flex;
+            justify-content: center;
+            gap: 140px;
+            padding-top: 40px;
+            position: relative;
+        }
+
+        .grandchildren-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 75%;
+            height: 2px;
+            background: #03223D;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            animation: growLineH 0.6s ease 0.6s forwards;
+        }
+
+        /* Sub-filas de nietos (Bancos / Otros) y (Bursátil / OTC) */
+        .sub-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding-top: 40px;
+            position: relative;
+        }
+
+        .sub-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 70%;
+            height: 2px;
+            background: #03223D;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            animation: growLineH 0.5s ease 0.8s forwards;
+        }
+
+        .sub-row .child-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: #03223D;
+            transform: translateX(-50%) scaleY(0);
+            transform-origin: top;
+            animation: growLineV 0.4s ease 0.9s forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .container {
+                padding: 28px 16px 36px;
+            }
+
+            .tree {
+                min-width: 800px;
+                transform: scale(0.85);
+                transform-origin: top center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .node {
+                font-size: 0.8rem;
+                padding: 10px 16px;
+                min-width: 160px;
+            }
+
+            .node-root {
+                font-size: 1rem;
+                padding: 14px 24px;
+            }
+
+            .node-level-3 {
+                min-width: 130px;
+                font-size: 0.75rem;
+            }
+
+            .grandchildren-row {
+                gap: 60px;
+            }
+
+            .sub-row {
+                gap: 20px;
+            }
+        }
+
+        /* Scrollbar */
+        .container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: #f0f2f7;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: #c8d0df;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: #356389;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="tree">
+
+            <!-- NIVEL 0: Raíz -->
+            <div class="node node-root">SISTEMA FINANCIERO</div>
+
+            <!-- Conector vertical desde la raíz -->
+            <div class="connector-vertical"></div>
+
+            <!-- NIVEL 1: Mercados -->
+            <div class="children-row" style="--line-width: 90%;">
+                <div class="child-wrapper">
+                    <div class="node node-level-1">Mercado de monetario</div>
+                </div>
+                <div class="child-wrapper">
+                    <div class="node node-level-1 dark">Mercado de capitales</div>
+                </div>
+                <div class="child-wrapper">
+                    <div class="node node-level-1">Mercado de divisa</div>
+                </div>
+                <div class="child-wrapper">
+                    <div class="node node-level-1">Mercado de financieros</div>
+                </div>
+            </div>
+
+            <!-- Conector vertical desde Mercado de capitales (hijo 2) -->
+            <div class="connector-vertical" style="margin-left: -240px;"></div>
+
+            <!-- NIVEL 2: Tipos de mercado -->
+            <div class="grandchildren-row">
+                <div class="child-wrapper">
+                    <div class="node node-level-2">Bancario /<br>Intermediado</div>
+
+                    <!-- Sub-nivel: Bancos y Otros Intermediarios -->
+                    <div class="connector-vertical" style="height: 30px;"></div>
+
+                    <div class="sub-row">
+                        <div class="child-wrapper">
+                            <div class="node node-level-3">Bancos</div>
+                        </div>
+                        <div class="child-wrapper">
+                            <div class="node node-level-3">Otros<br>Intermediarios</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="child-wrapper">
+                    <div class="node node-level-2 dark">No Bancario / No Intermediado<br>(Mercado de valores)</div>
+
+                    <!-- Sub-nivel: Bursátil y OTC -->
+                    <div class="connector-vertical" style="height: 30px;"></div>
+
+                    <div class="sub-row">
+                        <div class="child-wrapper">
+                            <div class="node node-level-3 dark">Mercado<br>Bursátil</div>
+                        </div>
+                        <div class="child-wrapper">
+                            <div class="node node-level-3 dark">Mercado extrabursátil<br>Mercado mostrador (OTC)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        console.log('Sistema Financiero - Estructura jerárquica vertical');
+        console.log('Colores: #3E368A / #356389 / #03223D');
+    </script>
+
+</body>
+
+</html>
